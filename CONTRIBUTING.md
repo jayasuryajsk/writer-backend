@@ -6,4 +6,5 @@
 
 ## Branch naming
 - Use short, descriptive names with hyphens.
-- Example: `feature-login`, `fix-typo`.
+- Prefer the pattern `codex/<topic>` for documentation and automation tasks.
+- Example: `codex/docs-prod`, `feature-login`, `fix-typo`.

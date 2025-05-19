@@ -8,6 +8,19 @@ cd writer-backend
 docker compose up
 ```
 
+## Environment Variables
+| Variable | Description |
+| -------- | ----------- |
+| `ZED_SERVER_URL` | URL for the Zed frontend to reach this backend |
+| `DATABASE_URL` | Postgres connection string |
+
+## Google OAuth Setup in Supabase
+1. Log in to your Supabase project.
+2. Go to **Authentication > Settings > External OAuth Providers**.
+3. Enter your Google client ID and secret and save.
+
+To point Zed at this backend, set `ZED_SERVER_URL=https://api.$DOMAIN`.
+
 ## API Endpoints
 | Method | Endpoint | Description |
 | ------ | -------- | ----------- |
