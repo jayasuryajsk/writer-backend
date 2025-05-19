@@ -1,0 +1,48 @@
+http:
+  routers:
+    api:
+      rule: "Path(`/native_app_signin`) || PathPrefix(`/oauth`) || PathPrefix(`/llm`) || PathPrefix(`/extensions`) || Path(`/crash`)"
+      service: api
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: le
+    collab_redirect:
+      rule: "PathPrefix(`/rpc`)"
+      service: collab_redirect
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: le
+    liveblocks:
+      rule: "Host(`collab.{{ env \"DOMAIN\" }}`)"
+      service: liveblocks
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: le
+      middlewares:
+        - liveblocks-auth
+
+  services:
+    api:
+      loadBalancer:
+        servers:
+          - url: http://api:8000
+    collab_redirect:
+      loadBalancer:
+        servers:
+          - url: http://collab-redirect:80
+    liveblocks:
+      loadBalancer:
+        passHostHeader: true
+        servers:
+          - url: https://liveblocks.io
+
+  middlewares:
+    liveblocks-auth:
+      forwardAuth:
+        address: https://liveblocks-auth.example
+        trustForwardHeader: true
+        authResponseHeaders:
+          - Authorization
